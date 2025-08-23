@@ -1,4 +1,4 @@
-// api/openapi.yaml.ts  → GET /api/openapi.yaml  (YAML)
+// api/openapi.yaml.ts
 export default function handler(req, res) {
   const yaml = `
 openapi: 3.1.0
@@ -20,8 +20,7 @@ paths:
       responses:
         "200":
           description: OK
-`.trim();
-
-  res.setHeader("Content-Type", "text/yaml; charset=utf-8");
-  res.status(200).send(yaml); // YAML output
+  `;
+  res.setHeader("Content-Type", "text/yaml");
+  res.status(200).send(yaml);
 }
