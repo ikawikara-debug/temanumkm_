@@ -1,49 +1,31 @@
-// /api/bep/compute.ts
-export default async function handler(req: any, res: any) {
-  if (req.method !== "POST") {
-    res.status(405).json({ error: "Method not allowed" });
-    return;
-  }
-  try {
-    // dukung req.json() (Edge) dan req.body (Node)
-    let body: any = req.body;
-    if (!body || typeof body !== "object") {
-      try {
-        body = await req.json?.();
-      } catch {}
+// api/bep/compute.ts
+export default function handler(req, res) {
+  if (req.method === "POST") {
+    const { fixed_cost, harga_jual, biaya_variable } = req.body;
+
+    if (!fixed_cost || !harga_jual || !biaya_variable) {
+      return res.status(400).json({ error: "Input tidak lengkap" });
     }
 
-    const fixedCost = Number(body?.fixedCost);
-    const price = Number(body?.price);
-    const variableCost = Number(body?.variableCost);
-
-    if (
-      !isFinite(fixedCost) ||
-      !isFinite(price) ||
-      !isFinite(variableCost)
-    ) {
-      res.status(400).json({ error: "Invalid body. Need fixedCost, price, variableCost (number)." });
-      return;
+    const margin = harga_jual - biaya_variable;
+    if (margin <= 0) {
+      return res.status(400).json({ error: "Margin harus lebih besar dari 0" });
     }
 
-    const contribution = price - variableCost;
-    if (contribution <= 0) {
-      res.status(400).json({ error: "Harga harus lebih besar dari biaya variabel." });
-      return;
-    }
-
-    const bepUnits = Math.ceil(fixedCost / contribution);
-    const bepRevenue = bepUnits * price;
+    // Hitung BEP
+    const bep_unit = Math.ceil(fixed_cost / margin);
+    const bep_revenue = bep_unit * harga_jual;
 
     res.status(200).json({
-      fixedCost,
-      price,
-      variableCost,
-      contribution,
-      bepUnits,
-      bepRevenue
+      message: "Perhitungan BEP berhasil",
+      fixed_cost,
+      harga_jual,
+      biaya_variable,
+      margin_per_unit: margin,
+      bep_unit,
+      bep_revenue
     });
-  } catch (e: any) {
-    res.status(500).json({ error: "Server error", detail: String(e?.message || e) });
+  } else {
+    res.status(405).json({ error: "Method not allowed" });
   }
 }
