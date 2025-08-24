@@ -1,36 +1,4 @@
 // api/openapi.yaml.ts  → GET /api/openapi.yaml
-// Menghasilkan spesifikasi OpenAPI untuk CustomGPT Actions
-type Req = any;
-type Res = any;
-
-export default function handler(req: Req, res: Res) {
-  const yaml = `openapi: 3.1.0
-info:
-  title: UMKM Profit Recipes API
-  version: "1.0.0"
-servers:
-  - url: https://temanumkm.vercel.app/api
-paths:
-  /ideas:
-    get:
-      summary: List ide usaha margin tinggi
-      operationId: get_ideas
-      responses:
-        "200":
-          description: OK
-
-  /bep/compute:
-    post:
-      summary: Hitung Break Even Point (BEP)
-      operationId: post_bep_compute
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/BepComputeRequest"
-…
-[14:25, 24/08/2025] Ika - Revlin: // api/openapi.yaml.ts  → GET /api/openapi.yaml
 type Req = any;
 type Res = any;
 
