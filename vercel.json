@@ -1,7 +1,19 @@
 {
   "redirects": [
-    { "source": "/api/:path*", "destination": "https://sahabatumkm.vercel.app/api/:path*", "permanent": true },
-    { "source": "/privacy",   "destination": "https://sahabatumkm.vercel.app/privacy",   "permanent": true },
-    { "source": "/:path*",    "destination": "https://sahabatumkm.vercel.app/:path*",    "permanent": true }
+    {
+      "source": "/api/:path*",
+      "destination": "https://sahabatumkm.vercel.app/api/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "https://sahabatumkm.vercel.app/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "destination": "https://sahabatumkm.vercel.app/:path*",
+      "permanent": true
+    }
   ]
 }
